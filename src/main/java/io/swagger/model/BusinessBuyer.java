@@ -101,7 +101,6 @@ public class BusinessBuyer   {
    * @return buyerType
    **/
   @Schema(example = "PROFESSIONNAL", required = true, description = "")
-      
 
     public BuyerTypeEnum getBuyerType() {
     return buyerType;
@@ -121,7 +120,7 @@ public class BusinessBuyer   {
    * @return party
    **/
   @Schema(description = "")
-  
+   @NotNull
     @Valid
     public BusinessProfessionnalParty getParty() {
     return party;
@@ -141,7 +140,7 @@ public class BusinessBuyer   {
    * @return eInvoicing
    **/
   @Schema(description = "")
-  
+    @NotNull
     @Valid
     public BusinessBuyerEInvoicing getEInvoicing() {
     return eInvoicing;
@@ -181,7 +180,7 @@ public class BusinessBuyer   {
    * @return contactAddress
    **/
   @Schema(required = true, description = "")
-      
+      @NotNull
 
     @Valid
     public BusinessAddress getContactAddress() {
@@ -202,7 +201,7 @@ public class BusinessBuyer   {
    * @return billingAddress
    **/
   @Schema(required = true, description = "")
-      
+      @NotNull
 
     @Valid
     public BusinessAddress getBillingAddress() {

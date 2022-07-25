@@ -80,7 +80,7 @@ public class BusinessContract   {
    * Internal identifier of the subscription
    * @return contractId
    **/
-  @Schema(example = "786876725453", description = "Internal identifier of the subscription")
+  @Schema(example = "725453", description = "Internal identifier of the subscription")
   
     public Integer getContractId() {
     return contractId;

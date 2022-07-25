@@ -158,7 +158,6 @@ public class SubscriptionResponse   {
    * @return payment
    **/
   @Schema(required = true, description = "")
-      
 
     @Valid
     public BusinessPayment getPayment() {

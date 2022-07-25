@@ -61,7 +61,8 @@ public class BusinessSeller   {
    * @return eFacturation
    **/
   @Schema(description = "")
-  
+  @NotNull
+
     @Valid
     public BusinessSellerEFacturation getEFacturation() {
     return eFacturation;
@@ -100,8 +101,9 @@ public class BusinessSeller   {
    * Get contactAddress
    * @return contactAddress
    **/
-  @Schema(description = "")
-  
+  @Schema(required=true,description = "")
+    @NotNull
+
     @Valid
     public BusinessAddress getContactAddress() {
     return contactAddress;
