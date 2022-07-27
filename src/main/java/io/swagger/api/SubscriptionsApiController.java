@@ -1,15 +1,19 @@
 package io.swagger.api;
 
+import io.swagger.infrastructure.SubscriptionProducer;
 import io.swagger.model.SubscriptionRequest;
 import io.swagger.model.SubscriptionResponse;
 import io.swagger.model.SubscriptionsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.model.dto.BillingEvent;
 import io.swagger.service.SubscriptionService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,11 +38,15 @@ public class SubscriptionsApiController implements SubscriptionsApi {
 
     private final SubscriptionService subscriptionService;
 
+
+    private final SubscriptionProducer subscriptionProducer;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public SubscriptionsApiController(ObjectMapper objectMapper, HttpServletRequest request, SubscriptionService subscriptionService) {
+    public SubscriptionsApiController(ObjectMapper objectMapper, HttpServletRequest request, SubscriptionService subscriptionService, SubscriptionProducer subscriptionProducer) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.subscriptionService = subscriptionService;
+        this.subscriptionProducer = subscriptionProducer;
     }
 
     public ResponseEntity<SubscriptionResponse> getSubscription(@Parameter(in = ParameterIn.PATH, description = "External identifier of the subscription", required=true, schema=@Schema()) @PathVariable("subscriptionRef") String subscriptionRef) {
@@ -76,6 +84,10 @@ public class SubscriptionsApiController implements SubscriptionsApi {
 
     public ResponseEntity<SubscriptionRequest> postSubscription(@Parameter(in = ParameterIn.DEFAULT, description = "Request", schema=@Schema()) @RequestBody SubscriptionRequest body) throws IOException {
         //SubscriptionRequest subscriptionRequest = objectMapper.readValue(String.valueOf(body),SubscriptionRequest.class);
+
+        BillingEvent billing = subscriptionProducer.apply(body);
+
+        subscriptionProducer.sendMessage(billing);
         return new ResponseEntity<>(subscriptionService.subscribe(body),HttpStatus.OK);
     }
 

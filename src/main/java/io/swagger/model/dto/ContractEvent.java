@@ -10,16 +10,16 @@ public class ContractEvent {
     private String contractType = null;
 
     @JsonProperty("createdAt")
-    private LocalDate createdAt = null;
+    private String createdAt = null;
 
     @JsonProperty("signedAt")
-    private LocalDate signedAt = null;
+    private String signedAt = null;
 
     @JsonProperty("activatedAt")
-    private LocalDate activatedAt = null;
+    private String activatedAt = null;
 
     @JsonProperty("expireAt")
-    private LocalDate expireAt = null;
+    private String expireAt = null;
 
     @JsonProperty("status")
     private String status = null;
